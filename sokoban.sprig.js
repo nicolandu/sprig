@@ -13,6 +13,7 @@ const player = "p";
 const box = "b";
 const goal = "g";
 const wall = "w";
+const arrow = ">";
 
 // assign bitmap art to each sprite
 setLegend(
@@ -63,10 +64,10 @@ setLegend(
 .....4.....44...
 ......444444....
 ................
-.44...4...4..4..
-4....4.4.4.4.4..
-4..4.4.4.444.4..
-.44...4..4.4.444`],
+.44..44...4..4..
+4...4..4.4.4.4..
+4.4.4..4.444.4..
+.44..44..4.4.444`],
   [ wall, bitmap`
 0000000000000000
 0000000000000000
@@ -83,7 +84,24 @@ setLegend(
 0000000000000000
 0000000000000000
 0000000000000000
-0000000000000000`]
+0000000000000000`],
+  [ arrow, bitmap`
+................
+................
+................
+.......000......
+........000.....
+.........000....
+..........000...
+.000000000000...
+.000000000000...
+..........000...
+.........000....
+........000.....
+.......000......
+................
+................
+................`]
 );
 
 // create game levels
@@ -91,7 +109,7 @@ let level = 0; // this tracks the level we are on
 const levels = [
   map`
 ..p.
-.b.g
+.b>g
 ....`,
   map`
 p..
@@ -105,8 +123,8 @@ p.wg
   map`
 p..g
 ...b
-....
-.bbg`,
+gb..
+w.bg`,
   map`
 ...
 .p.
@@ -117,19 +135,50 @@ p.w.
 ....
 ..bg`,
   map`
-wwwwpw
-...p.w
-wwbw.w
-wp.w.w
-wwww.w
-.g...p`,
+..wwww
+..w...
+......
+wbw.ww
+p.w.w.
+www...
+g.....`,
   map`
 gwwwww
 g..bpw
 ..bw.w
 ww....
-wg..b.
-ww..ww`,
+wg..b.`,
+  map`
+wggg.b.
+www.w..
+.g.b...
+.b..bp.
+wwgb..w
+wwwg.bw
+wwww..w`,
+  map`
+pbgg.b.ww
+.bgg.b.ww
+.bgg.b...
+.b.ggb...
+.b.ggb.ww
+.b.ggb.ww`,
+  map`
+pbgg.b.ww
+.bgg.b.ww
+.bgg.b...
+.b.ggb...
+.b.ggb.ww
+.b.ggb.ww`,
+  map`
+www.
+ww..
+wwb.
+ww..
+wg.g
+w.bg
+..wb
+g.bp`,
 ];
 
 const moveSound = tune`
@@ -172,28 +221,23 @@ setSolids([ player, box, wall ]); // other sprites cannot go inside of these spr
 // allow certain sprites to push certain other sprites
 setPushables({
   [player]: [box],
-  [box]: [box],
 });
 
 // inputs for player movement control
 onInput("w", () => {
-  for (p of getAll(player)) p.y -= 1;
-  playTune(moveSound);
+    getFirst(player).y -= 1;
 });
 
 onInput("a", () => {
-  for (p of getAll(player)) p.x -= 1;
-  playTune(moveSound);
+    getFirst(player).x -= 1;
 });
 
 onInput("s", () => {
-  for (p of getAll(player)) p.y += 1; // positive y is downwards
-  playTune(moveSound);
+    getFirst(player).y += 1;
 });
 
 onInput("d", () => {
-  for (p of getAll(player)) p.x += 1;
-  playTune(moveSound);
+    getFirst(player).x += 1;
 });
 
 
