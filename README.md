@@ -1,2 +1,2 @@
 # sprig
-HackClub Sprig repo
+HackClub Sprig repo. Just tinkering.
